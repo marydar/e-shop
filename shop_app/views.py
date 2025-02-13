@@ -28,7 +28,7 @@ def add_item(request):
         product = Product.objects.get(id=product_id)
         
         cartitem, created = CartItem.objects.get_or_create(cart=cart, Product=product)
-        cartitem.quantity += 1
+        cartitem.quantity = 1
         cartitem.save()
         
         serializer = CartItemSerializer(cartitem)
