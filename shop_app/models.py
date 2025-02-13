@@ -28,4 +28,4 @@ class Product(models.Model):
                 unique_slug = f"{self.slug}-{counter}"
                 counter += 1
             self.slug = unique_slug
-        super.save(*args, **kwargs)
+        super().save(*args, **kwargs)
