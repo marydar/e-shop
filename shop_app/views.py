@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Cart, CartItem, Product
-from .serializers import CartItemSerializer, ProductSerializer, SimpleCartSerializer
+from .serializers import CartItemSerializer, CartSerializer, ProductSerializer, SimpleCartSerializer
 from .serializers import DetailedProductSerializer
 
 # Create your views here.
@@ -54,4 +54,11 @@ def get_cart_stat(request):
     cart_code = request.query_params.get('cart_code')
     cart = Cart.objects.get(cart_code=cart_code, paid=False)
     serializer = SimpleCartSerializer(cart)
+    return Response(serializer.data)
+
+@api_view(['GET'])
+def get_cart(request):
+    cart_code = request.query_params.get('cart_code')
+    cart = Cart.objects.get(cart_code=cart_code , paid=False)
+    serializer = CartSerializer(cart)
     return Response(serializer.data)
