@@ -57,4 +57,4 @@ class SimpleCartSerializer(serializers.ModelSerializer):
     def get_number_of_items(self, cart):
         number_of_items = sum([item.quantity for item in cart.items.all()])
         return number_of_items
-        
+
