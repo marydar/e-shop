@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import Cart, CartItem, Product
-from .serializers import CartItemSerializer, CartSerializer, ProductSerializer, SimpleCartSerializer
-from .serializers import DetailedProductSerializer
+from .serializers import CartItemSerializer, CartSerializer, ProductSerializer, SimpleCartSerializer, UserSerializer, DetailedProductSerializer
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 @api_view(['GET'])
@@ -87,3 +87,17 @@ def delete_cartitem (request):
     cart_item = CartItem.objects.get(id=cart_item_id)
     cart_item.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_username(request):
+    user = request.user
+    return Response({"username": user.username})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def user_info(request):
+    user = request.user
+    serializer = UserSerializer(user)
+    return Response(serializer.data)
+
